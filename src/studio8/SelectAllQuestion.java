@@ -1,7 +1,5 @@
 package studio8;
 
-import support.cse131.NotYetImplementedException;
-
 public class SelectAllQuestion extends MultipleChoiceQuestion {
 
 	/**
@@ -12,8 +10,8 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 	 * @param choices
 	 */
 	public SelectAllQuestion(String prompt, String answer, String[] choices) {
-		// Hint: 1 point per choice
-		throw new NotYetImplementedException();
+		// Each choice is worth one point
+		super(prompt, answer, choices.length, choices);
 	}
 	
 	/**
@@ -21,7 +19,16 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 	 * @param String givenAnswer to check for points
 	 */
 	public int checkAnswer(String givenAnswer) {
-		throw new NotYetImplementedException();
+		// Total points available equals the number of choices
+		int totalPoints = this.getChoices().length;
+		int missingCorrect = findMissingCorrectAnswers(givenAnswer);
+		int incorrectGiven = findIncorrectGivenAnswers(givenAnswer);
+		int score = totalPoints - (missingCorrect + incorrectGiven);
+		// Do not return negative scores
+		if (score < 0) {
+			return 0;
+		}
+		return score;
 	}
 
 	/**
